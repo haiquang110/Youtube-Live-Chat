@@ -1,35 +1,30 @@
 # Youtube Live Chat
 
-Script Node.js ket nối với live chat của một buổi phát trực tiếp trên YouTube bằng package [`youtube-chat`](https://www.npmjs.com/package/youtube-chat). Tin nhắn và thông tin người gửi được in ra terminal; sự kiện Super Chat và sticker có thêm phần log riêng.
+## Chạy nhanh
 
-## Yêu cầu
+Cần cài Node.js và npm. Sau đó cài dependency:
 
-- Node.js và npm
-- ID của một video livestream đang phát công khai
+```sh
+npm install
+```
 
-## Cài đặt và chạy
+Trong `index.js`, thay `liveVideoId` bằng ID của video livestream đang phát:
 
-1. Cài các dependency:
+```js
+const liveVideoId = 'VIDEO_ID_CUA_BAN';
+```
 
-  ```sh
-  npm install
-  ```
+ID video là phần nằm sau `v=` trong URL YouTube, hoặc sau dấu `/` trong URL dạng `youtu.be`.
 
-2. Mở `index.js` và thay giá trị `liveVideoId` bằng ID video livestream cần theo dõi:
+Chạy chương trình:
 
-  ```js
-  const liveVideoId = 'VIDEO_ID_CUA_BAN';
-  ```
-
-  ID video là phần nằm sau `v=` trong URL YouTube, hoặc sau dấu `/` trong URL dạng `youtu.be`.
-
-3. Chạy script:
-
-  ```sh
-  node index.js
-  ```
+```sh
+node index.js
+```
 
 Nhấn `Ctrl+C` trong terminal để dừng chương trình.
+
+Script Node.js kết nối với live chat YouTube bằng package [`youtube-chat`](https://www.npmjs.com/package/youtube-chat). Tin nhắn và thông tin người gửi được in ra terminal; sự kiện Super Chat và sticker có thêm phần log riêng.
 
 ## Dữ liệu được ghi log
 
