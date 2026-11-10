@@ -1,125 +1,46 @@
-# youtube-chat
-[![npm version](https://badge.fury.io/js/youtube-chat.svg)](https://badge.fury.io/js/youtube-chat)
-![npm](https://img.shields.io/npm/dt/youtube-chat)
-![NPM](https://img.shields.io/npm/l/youtube-chat)
-[![CI](https://github.com/LinaTsukusu/youtube-chat/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/LinaTsukusu/youtube-chat/actions/workflows/ci.yml)
+# Youtube Live Chat
 
-> Fetch YouTube live chat without API
+Script Node.js ket nối với live chat của một buổi phát trực tiếp trên YouTube bằng package [`youtube-chat`](https://www.npmjs.com/package/youtube-chat). Tin nhắn và thông tin người gửi được in ra terminal; sự kiện Super Chat và sticker có thêm phần log riêng.
 
-☢ ***You will need to take full responsibility for your action*** ☢
+## Yêu cầu
 
-## Getting started
-1. Install
-    - `npm i youtube-chat`
-    - `yarn add youtube-chat`
-2. Import
-    - Javascript
-    ```javascript
-    const { LiveChat } = require("youtube-chat")
-    ```
-    - Typescript
-    ```typescript
-    import { LiveChat } from "youtube-chat"
-    ```
-3. Create instance with ChannelID or LiveID
-    ```javascript
-    // If channelId is specified, liveId in the current stream is automatically acquired.
-    // Recommended
-    const liveChat = new LiveChat({channelId: "CHANNEL_ID_HERE"})
-    
-    // Or specify LiveID in Stream manually.
-    const liveChat = new LiveChat({liveId: "LIVE_ID_HERE"})
-    ```
-4. Add events
-    ```typescript
-    // Emit at start of observation chat.
-    // liveId: string
-    liveChat.on("start", (liveId) => {
-      /* Your code here! */
-    })
-   
-    // Emit at end of observation chat.
-    // reason: string?
-    liveChat.on("end", (reason) => {
-      /* Your code here! */
-    })
-    
-    // Emit at receive chat.
-    // chat: ChatItem
-    liveChat.on("chat", (chatItem) => {
-      /* Your code here! */
-    })
-    
-    // Emit when an error occurs
-    // err: Error or any
-    liveChat.on("error", (err) => {
-      /* Your code here! */
-    })
-    ```
-5. Start
-    ```typescript
-    // Start fetch loop
-    const ok = await liveChat.start()
-    if (!ok) {
-      console.log("Failed to start, check emitted error")
-    }
-    ```
-6. Stop loop
-   ```typescript
-   liveChat.stop()
-   ```
+- Node.js và npm
+- ID của một video livestream đang phát công khai
 
-## Types
-### ChatItem
-```typescript
-interface ChatItem {
-   author: {
-      name: string
-      thumbnail?: ImageItem
-      channelId: string
-      badge?: {
-         thumbnail: ImageItem
-         label: string
-      }
-   }
-   message: MessageItem[]
-   superchat?: {
-      amount: string
-      color: string
-      sticker?: ImageItem
-   }
-   isMembership: boolean
-   isVerified: boolean
-   isOwner: boolean
-   isModerator: boolean
-   timestamp: Date
-}
-```
+## Cài đặt và chạy
 
-### MessageItem
+1. Cài các dependency:
 
-```typescript
-type MessageItem = { text: string } | EmojiItem
-```
+  ```sh
+  npm install
+  ```
 
-### ImageItem
-```typescript
-interface ImageItem {
-  url: string
-  alt: string
-}
-```
+2. Mở `index.js` và thay giá trị `liveVideoId` bằng ID video livestream cần theo dõi:
 
-### EmojiItem
-```typescript
-interface EmojiItem extends ImageItem {
-  emojiText: string
-  isCustomEmoji: boolean
-}
-```
+  ```js
+  const liveVideoId = 'VIDEO_ID_CUA_BAN';
+  ```
 
-## References
-- https://drroot.page/wp/?p=227
-- https://github.com/taizan-hokuto/pytchat
+  ID video là phần nằm sau `v=` trong URL YouTube, hoặc sau dấu `/` trong URL dạng `youtu.be`.
 
-Thank you!👍
+3. Chạy script:
+
+  ```sh
+  node index.js
+  ```
+
+Nhấn `Ctrl+C` trong terminal để dừng chương trình.
+
+## Dữ liệu được ghi log
+
+- Toàn bộ đối tượng chat dạng JSON để tiện kiểm tra dữ liệu thô.
+- Thời gian, tên người gửi, nội dung tin nhắn và ảnh đại diện.
+- Nhãn nhận diện chủ kênh, moderator và hội viên khi dữ liệu có sẵn.
+- Thông tin riêng cho Super Chat và sticker khi sự kiện có các dữ liệu đó.
+- Lỗi kết nối hoặc lỗi khi khởi tạo luồng chat.
+
+## Lưu ý
+
+- Video phải đang phát livestream và chat phải khả dụng. Video đã kết thúc, riêng tư hoặc tắt chat có thể không kết nối được.
+- Script dùng package `youtube-chat`; hoạt động phụ thuộc vào khả năng tương thích của package với YouTube và có thể thay đổi khi YouTube cập nhật dịch vụ.
+- Không cần đặt YouTube API key trong project này.
